@@ -11,25 +11,25 @@
 
 构造查询
 
-~~~
+~~~ php
 $query = DB::select()->from('articles')->where('is_published', '=', 1)->where('category_id', '=', '2');
 ~~~
 
 实例化可分页对象
 
-~~~
+~~~ php
 $paginator = Paginator::factory($query, 15);
 ~~~
 
 获取指定页面
 
-~~~
+~~~ php
 $page = $paginator->page(3);  // 不输入页码参数的话,将自行从当前请求对象中获取,如果也不存在,默认为1
 ~~~
 
 模板输出
 
-~~~
+~~~ php
 <!-- 输出文章标题 -->
 <ul>
   <?php foreach($page as $row):?> 
@@ -45,7 +45,7 @@ $page = $paginator->page(3);  // 不输入页码参数的话,将自行从当前�
 
 `orm`对象
 
-~~~
+~~~ php
 $Article = ORM::factory('Blog_Article');
 $pagination = Pagination::factory($Article, null, 'orm');  // 使用缺省的分页数量,指定分页目标为ORM
 $page = $pagination->page();
@@ -61,7 +61,7 @@ echo $page->render('simple');
 
 ### 配置
 
-~~~
+~~~ php
 return array(
     'default' => array(
         'key'         => 'page',             // 导航分页参数  eg. ?page=8
@@ -78,7 +78,7 @@ return array(
 
 在模板中输出
 
-~~~
+~~~ php
 <?php echo $page;?>
 <?php echo $page->render('youtheme'); ?>
 ~~~
@@ -88,13 +88,13 @@ return array(
 
 缺省的导航条的html里不包含
 
-~~~
+~~~ php
 <div class="pagination"></div>
 ~~~
 
 需要自行书写,这样可以灵活定义导航条的其他属性
 
-~~~
+~~~ php
 <div class="pagination pagination-small pagination-centered">
 <?php echo $page ?>
 </div>
