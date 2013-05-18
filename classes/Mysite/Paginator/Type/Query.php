@@ -15,4 +15,9 @@ class Mysite_Paginator_Type_Query extends Mysite_Paginator_Type
         }
         return $this->_count;
     }
+    
+    protected function valid()
+    {
+        
+    }
 }

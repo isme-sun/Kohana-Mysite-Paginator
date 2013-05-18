@@ -39,11 +39,11 @@ abstract class Mysite_Paginator_Type
      * @var array 缺省配置
      */
     protected $_config = array(
-        'key'         => 'page',    // 分页参数
-        'theme'       => 'default', // 导航皮肤
-        'per_page'    => 15,        // 每页数量
-        'orphans'     => 5,         // 孤儿数量
-        'invaid_page' => false,     // 无效分页处理方式
+        'key'      => 'page',    // 分页参数
+        'theme'    => 'default', // 导航皮肤
+        'strict'   => false,     // 页码数严格检查
+        'per_page' => 15,        // 每页数量
+        'orphans'  => 5,         // 孤儿数量
         'allow_empty_first_page' => TRUE // 太长了，为了向django致敬，留着吧
     );
 
@@ -73,10 +73,10 @@ abstract class Mysite_Paginator_Type
      * @param   string $type = 'query'     分页目标对象类型， 默认 'query'
      * @return  Paginator_Page
      */
-    public static function factory ($object_list, $per_page = null, $type = 'query')
+    public static function factory ($object_list, $per_page = null, $type = 'query', $config=null)
     {
         $class_type = 'Mysite_Paginator_Type_' . ucfirst(strtolower($type));
-        return new $class_type($object_list, $per_page);
+        return new $class_type($object_list, $per_page, $config);
     }
 
     /**
@@ -85,16 +85,17 @@ abstract class Mysite_Paginator_Type
      * @param mix $object_list
      * @param integer $per_page
      */
-    protected function __construct ($object_list, $per_page)
+    protected function __construct ($object_list, $per_page, $config)
     {
-        $config = Kohana::$config->load('paginator')->get('default');
+        $config = $config == null? 'default': $config;
+        $config = Kohana::$config->load('paginator')->get($config);
         $per_page !== null and $config['per_page'] = $per_page;
         $this->config($config);
         $_class_arr = explode('_', strtolower(get_class($this)));
         $this->_type = end($_class_arr);
         $this->_object_list = $object_list;
     }
-
+    
     /**
      * 配置设置,及获取
      *
@@ -119,30 +120,57 @@ abstract class Mysite_Paginator_Type
                 return $this->$key;
             } elseif (array_key_exists($key, $this->_config)) {
                 $this->_config[$key] = $value;
+                if ($key == 'per_page') {
+                    $this->_num_pages = null;
+                    $this->_page_range = array();
+                }
             }
         }
         
         return $this;
     }
 
+    /**
+     * 
+     * @param integer $number
+     * @throws Paginator_ValidPage
+     * @return integer number
+     */
+    public function validate_number($number)
+    {
+        if ( !is_numeric($number) ) {
+            throw new Paginator_PageNotAnInteger();
+        }
+        
+        if ($number < 1) {
+            throw new Paginator_EmptyPage();
+        }
+        
+        if ($number > $this->num_pages) {
+            if ($number != 1 or !$this->allow_empty_first_page) {
+                throw new Paginator_EmptyPage();
+            }
+        }
+        
+        return $number;
+    }
+    
 
     /**
      * 得到分页对象
      */
     public function page ($number=null)
     {
-        $number = abs(intval($number)); 
-        if (!$number ) {
-            $number = abs(Arr::get($_GET, $this->key, 1));
+        echo Debug::vars($this->key);
+        if ($number == null ) {
+            $number = Arr::get($_GET, $this->key, 1);
         }
-        
-        if ($this->invaid_page == TRUE and
-            !in_array($number, $this->page_range)) {
-            throw new Kohana_HTTP_Exception_404('page :page not exists', array(
-                'page' => $number
-            ));
-        } else {
-            $number = ($number > $this->num_pages)? $this->num_pages : $number;
+
+        try {
+            $number = $this->validate_number($number);
+        } catch (Paginator_ValidPage $e) {
+            if ($this->strict == true) throw $e;
+            $number = 1;
         }
         
         $limit = $this->per_page;
@@ -151,7 +179,7 @@ abstract class Mysite_Paginator_Type
         }
         $offset = ($number - 1) * $this->per_page;
         $class_page = 'Mysite_Paginator_Page_' . ucfirst($this->_type);
-        return new $class_page($this, $number, $limit, $offset);
+        return new $class_page(clone $this, $number, $limit, $offset);
     }
 
     /**
@@ -203,7 +231,8 @@ abstract class Mysite_Paginator_Type
             return $this->$attr_name;
         }
         
-        $is_config = in_array($name, array_keys($this->_config));
+        $is_config = array_key_exists($name, $this->_config);
+        
         if ($is_config) {
             return $this->_config[$name];
         }

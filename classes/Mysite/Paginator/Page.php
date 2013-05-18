@@ -27,7 +27,7 @@ abstract class Mysite_Paginator_Page extends ArrayObject
 
     protected $_offset = null;
 
-    public function __construct (&$paginator, $number, $limit, $offset)
+    public function __construct ($paginator, $number, $limit, $offset)
     {
         $this->_paginator = $paginator;
         
