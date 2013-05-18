@@ -64,12 +64,12 @@ echo $page->render('simple');
 ~~~ php
 return array(
     'default' => array(
-        'key'         => 'page',             // 导航分页参数  eg. ?page=8
-        'theme'       => 'default',          // 导航条皮肤
-        'per_page'    => 15,                 // 每页数量
-        'orphans'     => 5,                  // ‘孤儿’数量
-        'invaid_page' => FALSE,              // 无效页面的处理方式，false 静默
-        'allow_empty_first_page' => TRUE,    // 是否允许首页空也  TODO !!
+        'key'      => 'page',             // 导航分页参数  eg. ?page=8
+        'theme'    => 'default',          // 导航条皮肤
+        'per_page' => 15,                 // 每页数量
+        'orphans'  => 5,                  // '孤儿'数量
+        'strict'   => FALSE,              // 无效页面的处理方式，false 静默
+        'allow_empty_first_page' => TRUE,    // 是否允许首页空也
     ) 
 );
 ~~~
@@ -103,7 +103,6 @@ return array(
 ## TODO
 
 - 将分页功能整合到DB build和ORM
-- empty处理
 - 导航条的输出优化
 - 提供一套简单导航条模板
 - 完善注释
