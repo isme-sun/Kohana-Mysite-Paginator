@@ -2,4 +2,6 @@
 
 class Paginator_EmptyPage extends Paginator_ValidPage
 {
+   
+
 }

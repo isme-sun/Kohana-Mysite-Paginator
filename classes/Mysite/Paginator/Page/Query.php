@@ -6,6 +6,9 @@ class Mysite_Paginator_Page_Query extends Mysite_Paginator_Page
     protected function get_object_list ()
     {
         $query = clone $this->paginator->object_list;
+        
+        echo Debug::vars(class_parents($query));
+        
         $query->limit($this->_limit)->offset($this->_offset);
         $result = $query->execute();
         return $result->as_array();

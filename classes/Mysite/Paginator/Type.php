@@ -139,16 +139,16 @@ abstract class Mysite_Paginator_Type
     public function validate_number($number)
     {
         if ( !is_numeric($number) ) {
-            throw new Paginator_PageNotAnInteger();
+            throw new Paginator_PageNotAnInteger('That page number is not an integer');
         }
         
         if ($number < 1) {
-            throw new Paginator_EmptyPage();
+            throw new Paginator_EmptyPage('That page number is less than 1');
         }
         
         if ($number > $this->num_pages) {
             if ($number != 1 or !$this->allow_empty_first_page) {
-                throw new Paginator_EmptyPage();
+                throw new Paginator_EmptyPage('That page contains no results');
             }
         }
         
@@ -161,7 +161,6 @@ abstract class Mysite_Paginator_Type
      */
     public function page ($number=null)
     {
-        echo Debug::vars($this->key);
         if ($number == null ) {
             $number = Arr::get($_GET, $this->key, 1);
         }
