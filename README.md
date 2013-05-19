@@ -58,6 +58,20 @@ foreach($page as $row)
 echo $page->render('simple');
 ~~~
 
+### 与`DB Build`, `ORM`整合
+
+~~~ php
+// DB Build
+$page = DB::select()->from('Blog_Articles')
+                    ->where('is_published', '=', 1)
+                    ->paginator(15, 'default')
+                    ->page();
+// ORM
+$page = ORM::factory('Blog_Articles')
+           ->where('is_published', '=', 1)
+           ->paginator(15)
+           ->page();
+~~~
 
 ### 配置
 
@@ -102,7 +116,6 @@ return array(
 
 ## TODO
 
-- 将分页功能整合到DB build和ORM
 - 导航条的输出优化
 - 提供一套简单导航条模板
 - 完善注释
