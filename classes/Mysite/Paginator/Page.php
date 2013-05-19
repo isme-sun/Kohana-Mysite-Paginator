@@ -149,22 +149,22 @@ abstract class Mysite_Paginator_Page extends ArrayObject
         
         $page_range = $this->paginator->page_range;
         
-        if ($num_pages <= 11) 
+        if ($num_pages <= 9) 
         {
             $range = $page_range;
         } 
         else 
         {
-            if ($this->number <= 6) 
+            if ($this->number <= 5) 
             {
-                $range = array_slice($page_range, 0, 11);
-            } elseif (($num_pages - $this->number) < 6) {
-                $range = array_slice($page_range, - 11);
+                $range = array_slice($page_range, 0, 9);
+            } elseif (($num_pages - $this->number) < 5) {
+                $range = array_slice($page_range, - 9);
             } 
             else 
             {
-                $start = $page->number - 6;
-                $range = array_slice($page_range, $start, 11);
+                $start = $this->number - 5;
+                $range = array_slice($page_range, $start, 9);
             }
         }
         
