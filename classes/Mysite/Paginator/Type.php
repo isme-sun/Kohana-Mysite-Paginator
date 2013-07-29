@@ -246,8 +246,7 @@ abstract class Mysite_Paginator_Type
             return $this->$method();
         }
         
-        throw new Kohana_Exception('attr :attr not exist', array(
-            ':attr' => $name
-        ));
+        throw new Kohana_Exception('paginator not has attr: :var',
+            array(':var' => $name));
     }
 }
