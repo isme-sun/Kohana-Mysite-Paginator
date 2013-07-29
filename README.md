@@ -83,7 +83,7 @@ return array(
         'per_page' => 15,                 // 每页数量
         'orphans'  => 5,                  // '孤儿'数量
         'strict'   => FALSE,              // 无效页面的处理方式，false 静默
-        'allow_empty_first_page' => TRUE,    // 是否允许首页空也
+        'allow_empty_first_page' => TRUE,    // 是否允许首页为空
     ) 
 );
 ~~~
