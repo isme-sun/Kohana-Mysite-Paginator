@@ -7,4 +7,3 @@ abstract class Database_Query_Builder extends Kohana_Database_Query_Builder
         return Paginator::factory($this, $per_page, 'query', $config);
     }
 }
-

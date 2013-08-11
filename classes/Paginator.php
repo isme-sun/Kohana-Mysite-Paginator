@@ -28,6 +28,4 @@
  * @package Mysite/Paginator
  * @author isme.sun
  */
-abstract class Paginator extends Mysite_Paginator_Type
-{
-}
+abstract class Paginator extends Mysite_Paginator_Type { }
