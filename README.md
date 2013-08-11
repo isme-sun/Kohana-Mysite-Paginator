@@ -7,9 +7,8 @@
 
 查看[API](https://github.com/isme-sun/paginator/blob/master/API.md)文档.
 
-### 基本使用
 
-构造查询
+### DB类 构造查询 
 
 ~~~ php
 $query = DB::select()->from('articles')
@@ -46,7 +45,7 @@ $page = $paginator->page(3);
 <?php echo $page->render();?>;
 ~~~
 
-`orm`对象
+### `ORM`对象
 
 ~~~ php
 $Article = ORM::factory('Blog_Article');
