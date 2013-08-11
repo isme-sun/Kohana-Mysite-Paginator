@@ -1,8 +1,6 @@
 <?php I18n::load('paginator/');?>
 
-<?php // <div class="pagination"> ?>
-  <ul class="pagination">
-  
+<ul class="pagination">
     <?php if ($page->number == 1):?>
     <li class="disabled">
     <?php else:?>
@@ -45,4 +43,3 @@
     </li>
   
   </ul>
-<?php // </div>?>

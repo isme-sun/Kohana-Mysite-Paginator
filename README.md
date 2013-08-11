@@ -8,6 +8,7 @@
 查看[API](https://github.com/isme-sun/paginator/blob/master/API.md)文档.
 
 
+------------------------------------------------------------------------------
 ### DB类 构造查询 
 
 ~~~ php
@@ -62,6 +63,7 @@ foreach($page as $row)
 echo $page->render('simple');
 ~~~
 
+------------------------------------------------------------------------------
 ### 与`DB Build`, `ORM`整合
 
 ~~~ php
@@ -77,6 +79,7 @@ $page = ORM::factory('Blog_Articles')
            ->page();
 ~~~
 
+------------------------------------------------------------------------------
 ### 配置
 
 ~~~ php
@@ -92,6 +95,7 @@ return array(
 );
 ~~~
 
+------------------------------------------------------------------------------
 ### 导航条
 
 在模板中输出
@@ -104,19 +108,7 @@ return array(
 缺省的的导航条以Bootstrap的[Pagination](http://twitter.github.io/bootstrap/components.html#pagination)
 组件结构为准,如果项目中引用了Bootstrap,可以直接使用.
 
-缺省的导航条的html里不包含
-
-~~~ php
-<div class="pagination"></div>
-~~~
-
-需要自行书写,这样可以灵活定义导航条的其他属性
-
-~~~ php
-<div class="pagination pagination-small pagination-centered">
-<?php echo $page ?>
-</div>
-~~~
+`Bootstrap3`的导航组件class直接写在ul元素上，目前缺省的导航条`class`为`pagination`
 
 ## TODO
 
