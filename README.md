@@ -15,17 +15,11 @@
 $query = DB::select()->from('articles')
                      ->where('is_published', '=', 1)
                      ->where('category_id', '=', '2');
-~~~
 
-实例化可分页对象
-
-~~~ php
+// 实例化可分页对象
 $paginator = Paginator::factory($query, 15);
-~~~
 
-获取指定页面
-
-~~~ php
+// 获取指定页面
 // 不输入页码参数的话,将自行从当前请求对象中获取,如果也不存在,默认为1
 $page = $paginator->page(3);  
 ~~~
